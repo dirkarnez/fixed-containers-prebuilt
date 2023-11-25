@@ -121,6 +121,8 @@ jobs:
             cmake.exe -G"MinGW Makefiles" ^
             -DCMAKE_BUILD_TYPE=Release ^
             -DBUILD_SHARED_LIBS=OFF ^
+            -DBUILD_TESTS=OFF ^
+            -DFIXED_CONTAINERS_OPT_INSTALL=ON ^
             -Dmagic_enum_DIR="%CD_LINUX%/magic_enum-v0.9.5-${{ matrix.compiler.name }}/lib/cmake/magic_enum" ^
             -Drange-v3_DIR="%CD_LINUX%/range-v3-v0.12.0-${{ matrix.compiler.name }}/lib/cmake/range-v3" ^
             -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" -B./cmake-build &&^
