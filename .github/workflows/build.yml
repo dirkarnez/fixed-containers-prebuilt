@@ -94,7 +94,14 @@ jobs:
       #       -DBUILD_SHARED_LIBS=OFF ^
       #       -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" -B./cmake-build &&^
       #       cd cmake-build && cmake --build . --config Release && cmake --install . 
-            
+
+      - name: set PATH, check mingw version, cmake generate, build and install
+        if: ${{ matrix.compiler.url }}
+        shell: cmd
+        run: |
+          curl https://github.com/dirkarnez/magic_enum-prebuilt/releases/download/v0.9.5/magic_enum-v0.9.5-${{ matrix.compiler.name }}.zip -L -O -J &&^
+          7z.exe x magic_enum-v0.9.5-${{ matrix.compiler.name }}.zip -o"magic_enum-v0.9.5-${{ matrix.compiler.name }}"
+          
       - name: set PATH, check mingw version, cmake generate, build and install
         if: ${{ matrix.compiler.url }}
         shell: cmd
@@ -109,6 +116,7 @@ jobs:
             cmake.exe -G"MinGW Makefiles" ^
             -DCMAKE_BUILD_TYPE=Release ^
             -DBUILD_SHARED_LIBS=OFF ^
+            -Dmagic_enum_DIR="%CD_LINUX%/magic_enum-v0.9.5-${{ matrix.compiler.name }}/lib/cmake/magic_enum" ^
             -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" -B./cmake-build &&^
             cd cmake-build && ( cmake --build . --config Release && cmake --install .  || type .\CMakeFiles\CMakeError.log )  
  
